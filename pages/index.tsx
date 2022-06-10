@@ -7,6 +7,7 @@ import styles from '../styles/Home.module.scss';
 import { Character, GetCharacterResults } from '../types';
 import Layout from '../components/Layout';
 import { useEffect, useState } from 'react';
+import CharacterCard from '../components/CharacterCard';
 
 const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 	const [page, setPage] = useState(1);
@@ -58,64 +59,9 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 				</header>
 				<main className={styles.main}>
 					<div className={styles.grid}>
-						{results.map((character) => {
-							const lastSeenUrl = character.location.url;
-							const lastSeenIndex = lastSeenUrl.lastIndexOf('/');
-							const lastSeen = lastSeenUrl.substr(lastSeenIndex);
-							const originUrl = character.origin.url;
-							const originIndex = originUrl.lastIndexOf('/');
-							const origin = originUrl
-								? `/locations${originUrl.substr(originIndex)}`
-								: '/';
-
-							return (
-								<article key={character.id} className={styles.card}>
-									<div className={styles['image-wrapper']}>
-										<Image
-											loader={imageLoader}
-											unoptimized
-											src={character.image}
-											alt={character.name}
-											layout="fill"
-										/>
-									</div>
-									<div className={styles['content-wrapper']}>
-										<div className={styles.section}>
-											<Link href={`/characters/${character.id}`}>
-												<a className={styles.link}>
-													<h3>{character.name}</h3>
-												</a>
-											</Link>
-											<span className={styles.status}>
-												<span
-													className={styles.status__icon}
-													style={{
-														backgroundColor:
-															character.status.toLowerCase() === 'alive'
-																? 'rgb(85, 204, 68)'
-																: 'rgb(214, 61, 46)',
-													}}
-												></span>{' '}
-												{character.status} - {character.species}
-											</span>
-										</div>
-
-										<div className={styles.section}>
-											<span className={'text-gray'}>Last known location:</span>
-											<Link href={`/locations${lastSeen}`}>
-												<a className={styles.link}>{character.location.name}</a>
-											</Link>
-										</div>
-										<div className={styles.section}>
-											<span className={'text-gray'}>First seen in:</span>
-											<Link href={origin}>
-												<a className={styles.link}>{character.origin.name}</a>
-											</Link>
-										</div>
-									</div>
-								</article>
-							);
-						})}
+						{results.map((character) => (
+							<CharacterCard key={character.id} character={character} />
+						))}
 					</div>
 					<button onClick={() => setPage(page + 1)}>Next page</button>
 				</main>
