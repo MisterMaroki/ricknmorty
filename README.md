@@ -3,15 +3,24 @@
 - Project built with Next.Js, Typescript
 
 
-**Bootstrap the application**
+**Install dependencies**
 
 ```
-npx create-next-app 
-# or
-yarn create next-app
+yarn
 
-# with typescript
-yarn create next-app my-app --typescript
+or
+
+npm i
+```
+
+**Run the application**
+
+```
+yarn dev
+
+or
+
+npm run dev
 ```
 
 **Rendering strategies**
@@ -31,20 +40,3 @@ export async function getServerSideProps() {
 }
 ```
 
-**Routing**
-
-[https://nextjs.org/docs/routing/introduction](https://nextjs.org/docs/routing/introduction)
-
-**Styling**
-
-[https://nextjs.org/docs/basic-features/built-in-css-support](https://nextjs.org/docs/basic-features/built-in-css-support)
-
-**Environment variables**
-
-[https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables](https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables)
-
-**Router**
-
-```jsx
-import { useRouter } from "next/router";
-```
