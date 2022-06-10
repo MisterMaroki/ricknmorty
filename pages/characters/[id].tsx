@@ -29,7 +29,7 @@ CharacterPage.getLayout = function getLayout(page: typeof CharacterPage) {
 	return <Layout>{page}</Layout>;
 };
 
-export async function getStaticPaths() {
+export async function getServerSidePaths() {
 	const res = await fetch('https://rickandmortyapi.com/api/character');
 	const { results }: GetCharacterResults = await res.json();
 
@@ -41,7 +41,11 @@ export async function getStaticPaths() {
 	};
 }
 
-export async function getStaticProps({ params }: { params: { id: string } }) {
+export async function getServerSideProps({
+	params,
+}: {
+	params: { id: string };
+}) {
 	const res = await fetch(
 		`https://rickandmortyapi.com/api/character/${params.id}`
 	);
