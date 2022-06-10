@@ -80,6 +80,7 @@ $clr-tertiary: #914dc8;
 	align-items: center;
 	flex-wrap: wrap;
 	max-width: 1920px;
+	padding-inline: 1rem;
 }
 
 .card {
@@ -92,6 +93,12 @@ $clr-tertiary: #914dc8;
 	margin: 0.75rem;
 	box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px,
 		rgb(0 0 0 / 6%) 0px 2px 4px -1px;
+	@media (max-width: 667px) {
+		flex-direction: column;
+		height: initial;
+		width: 100%;
+		max-width: 400px;
+	}
 }
 
 .card:hover,
@@ -117,12 +124,6 @@ $clr-tertiary: #914dc8;
 	margin-left: 0.5rem;
 }
 
-@media (max-width: 600px) {
-	.grid {
-		width: 100%;
-		flex-direction: column;
-	}
-}
 .image-wrapper {
 	flex: 2 1 0%;
 	width: 100%;

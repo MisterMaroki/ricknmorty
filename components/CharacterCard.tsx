@@ -21,7 +21,9 @@ const CharacterCard = ({ character }: { character: Character }) => {
 					unoptimized
 					src={character.image}
 					alt={character.name}
-					layout="fill"
+					width={'100%'}
+					height={'100%'}
+					layout="responsive"
 				/>
 			</div>
 			<div className={styles['content-wrapper']}>
