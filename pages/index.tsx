@@ -11,18 +11,24 @@ import CharacterCard from '../components/CharacterCard';
 
 const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 	const [page, setPage] = useState(1);
-	const [results, setResults] = useState(() => characters);
+	const [allResults, setAllResults] = useState(() => characters);
 	useEffect(() => {
-		const getCharacterData = async () => {
+		const getCharacterData = async (page: number) => {
 			const res = await fetch(
 				`https://rickandmortyapi.com/api/character/?page=${page}`
 			);
 			const { results }: GetCharacterResults = await res.json();
-			setResults(results);
+			setAllResults((prev) => [...prev, ...results]);
 		};
 
-		getCharacterData();
-	}, [page]);
+		if (allResults.length === 20) {
+			for (let i = 2; i <= 42; i++) {
+				getCharacterData(i);
+			}
+			setAllResults((prev) => prev.sort((a, b) => a.id - b.id));
+		}
+		return;
+	}, []);
 
 	return (
 		<Layout>
@@ -59,10 +65,11 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 				</header>
 				<main className={styles.main}>
 					<div className={styles.grid}>
-						{results.map((character) => (
+						{allResults.slice((page - 1) * 20, page * 20).map((character) => (
 							<CharacterCard key={character.id} character={character} />
 						))}
 					</div>
+					<button onClick={() => setPage(page - 1)}>Prev page</button>
 					<button onClick={() => setPage(page + 1)}>Next page</button>
 				</main>
 			</div>
@@ -73,6 +80,19 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 // 	return <Layout>{page}</Layout>;
 // };
 export const getServerSideProps: GetServerSideProps = async (context) => {
+	// const allResults: Character[] = [];
+
+	// if (allResults.length === 0) {
+	// 	for (let i = 1; i <= 42; i++) {
+	// 		const res = await fetch(
+	// 			`https://rickandmortyapi.com/api/character/?page=${i}`
+	// 		);
+	// 		const { results }: GetCharacterResults = await res.json();
+	// 		allResults.push(...results);
+	// 	}
+	// }
+	// allResults.sort((a, b) => a.id - b.id);
+
 	const res = await fetch('https://rickandmortyapi.com/api/character');
 	const { results }: GetCharacterResults = await res.json();
 
