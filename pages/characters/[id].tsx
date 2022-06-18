@@ -1,14 +1,12 @@
-import { GetServerSideProps } from 'next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import Layout from '../../components/Layout';
-import imageLoader from '../../imageLoader';
-import { Character, GetCharacterResults } from '../../types';
-import styles from '../../styles/Character.module.scss';
+import { GetServerSideProps } from 'next'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import Layout from '../../components/Layout'
+import imageLoader from '../../imageLoader'
+import { Character, GetCharacterResults } from '../../types'
+import styles from '../../styles/Character.module.scss'
 
 function CharacterPage({ character }: { character: Character }) {
-	const router = useRouter();
-
 	return (
 		<div className={styles.container}>
 			<h1>{character.name}</h1>
@@ -22,40 +20,40 @@ function CharacterPage({ character }: { character: Character }) {
 				height="200px"
 			/>
 		</div>
-	);
+	)
 }
 
 CharacterPage.getLayout = function getLayout(page: typeof CharacterPage) {
-	return <Layout>{page}</Layout>;
-};
+	return <Layout>{page}</Layout>
+}
 
 export async function getServerSidePaths() {
-	const res = await fetch('https://rickandmortyapi.com/api/character');
-	const { results }: GetCharacterResults = await res.json();
+	const res = await fetch('https://rickandmortyapi.com/api/character')
+	const { results }: GetCharacterResults = await res.json()
 
 	return {
 		paths: results.map((character) => {
-			return { params: { id: String(character.id) } };
+			return { params: { id: String(character.id) } }
 		}),
 		fallback: false,
-	};
+	}
 }
 
 export async function getServerSideProps({
 	params,
 }: {
-	params: { id: string };
+	params: { id: string }
 }) {
 	const res = await fetch(
 		`https://rickandmortyapi.com/api/character/${params.id}`
-	);
-	const character = await res.json();
+	)
+	const character = await res.json()
 
 	return {
 		props: {
 			character,
 		},
-	};
+	}
 }
 
-export default CharacterPage;
+export default CharacterPage
