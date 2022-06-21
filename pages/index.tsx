@@ -1,34 +1,24 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
-import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
-import imageLoader from '../imageLoader';
-import styles from '../styles/Home.module.scss';
-import { Character, GetCharacterResults } from '../types';
-import Layout from '../components/Layout';
-import { useEffect, useState } from 'react';
-import CharacterCard from '../components/CharacterCard';
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
+import imageLoader from '../imageLoader'
+import styles from '../styles/Home.module.scss'
+import { Character, GetCharacterResults } from '../types'
+import Layout from '../components/Layout'
+import { useEffect, useState } from 'react'
+import CharacterCard from '../components/CharacterCard'
+import { useStore } from '../AppStore'
 
-const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
-	const [page, setPage] = useState(1);
-	const [allResults, setAllResults] = useState(() => characters);
-	useEffect(() => {
-		const getCharacterData = async (page: number) => {
-			const res = await fetch(
-				`https://rickandmortyapi.com/api/character/?page=${page}`
-			);
-			const { results }: GetCharacterResults = await res.json();
-			setAllResults((prev) => [...prev, ...results]);
-		};
+const Home: NextPage = () => {
+	const [page, setPage] = useState(1)
+	const { characters } = useStore()
 
-		if (allResults.length === 20) {
-			for (let i = 2; i <= 42; i++) {
-				getCharacterData(i);
-			}
-			setAllResults((prev) => prev.sort((a, b) => a.id - b.id));
-		}
-		return;
-	}, []);
+	const characterCards = characters
+		.slice((page - 1) * 20, (page - 1) * 20 + 20)
+		.map((character) => (
+			<CharacterCard key={character.id} character={character} />
+		))
 
 	return (
 		<Layout>
@@ -64,43 +54,16 @@ const Home: NextPage<{ characters: Character[] }> = ({ characters }) => {
 					</div>
 				</header>
 				<main className={styles.main}>
-					<div className={styles.grid}>
-						{allResults.slice((page - 1) * 20, page * 20).map((character) => (
-							<CharacterCard key={character.id} character={character} />
-						))}
-					</div>
+					<div className={styles.grid}>{characterCards}</div>
 					<button onClick={() => setPage(page - 1)}>Prev page</button>
 					<button onClick={() => setPage(page + 1)}>Next page</button>
 				</main>
 			</div>
 		</Layout>
-	);
-};
+	)
+}
 // Home.getLayout = function getLayout(page: typeof Home) {
 // 	return <Layout>{page}</Layout>;
 // };
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	// const allResults: Character[] = [];
 
-	// if (allResults.length === 0) {
-	// 	for (let i = 1; i <= 42; i++) {
-	// 		const res = await fetch(
-	// 			`https://rickandmortyapi.com/api/character/?page=${i}`
-	// 		);
-	// 		const { results }: GetCharacterResults = await res.json();
-	// 		allResults.push(...results);
-	// 	}
-	// }
-	// allResults.sort((a, b) => a.id - b.id);
-
-	const res = await fetch('https://rickandmortyapi.com/api/character');
-	const { results }: GetCharacterResults = await res.json();
-
-	return {
-		props: {
-			characters: results,
-		},
-	};
-};
-
-export default Home;
+export default Home
