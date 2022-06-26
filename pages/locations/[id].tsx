@@ -9,11 +9,11 @@ import {
 	GetLocationResults,
 	Character,
 } from '../../types'
-import styles from '../../styles/Character.module.scss'
-import { useState } from 'react'
+import styles from '../../styles/Home.module.scss'
+import { useEffect, useState } from 'react'
 import CharacterCard from '../../components/CharacterCard'
 import { useStore } from '../../AppStore'
-
+import TimeAgo from 'react-timeago'
 function LocationPage({ location }: { location: Location }) {
 	console.log(
 		'🚀 ~ file: [id].tsx ~ line 18 ~ LocationPage ~ location',
@@ -22,15 +22,32 @@ function LocationPage({ location }: { location: Location }) {
 	const [page, setPage] = useState(1)
 	const { characters } = useStore()
 
+	const residents = location.residents.map((resident) => {
+		return characters.find(
+			(x) => x.id === +resident.substring(resident.lastIndexOf('/') + 1)
+		)
+	}) as Character[]
+
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
-				<h1 className={styles.title}>Rick and Morty</h1>
+				<h1 className={styles.title}>{location.name}</h1>
 				<div className={styles.headerImage}></div>
+				<div className={styles.locationInfo}>
+					<p>
+						Created: <TimeAgo date={location.created} />
+					</p>
+					<p>
+						Dimension: <span>{location.dimension}</span>
+					</p>
+					<p>
+						Type: <span>{location.type}</span>
+					</p>
+				</div>
 			</header>
 			<main className={styles.main}>
 				<div className={styles.grid}>
-					{characters
+					{residents
 						?.slice((page - 1) * 20, page * 20)
 						.map((character: Character) => (
 							<CharacterCard key={character.id} character={character} />

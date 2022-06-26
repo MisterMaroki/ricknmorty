@@ -1,17 +1,19 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import imageLoader from '../imageLoader';
-import styles from '../styles/Home.module.scss';
-import { Character } from '../types';
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import imageLoader from '../imageLoader'
+import styles from '../styles/Home.module.scss'
+import { Character } from '../types'
 
 const CharacterCard = ({ character }: { character: Character }) => {
-	const lastSeenUrl = character.location.url;
-	const lastSeenIndex = lastSeenUrl.lastIndexOf('/');
-	const lastSeen = lastSeenUrl.substr(lastSeenIndex);
-	const originUrl = character.origin.url;
-	const originIndex = originUrl.lastIndexOf('/');
-	const origin = originUrl ? `/locations${originUrl.substr(originIndex)}` : '/';
+	const lastSeenUrl = character.location.url
+	const lastSeenIndex = lastSeenUrl.lastIndexOf('/')
+	const lastSeen = lastSeenUrl
+		? `/locations${lastSeenUrl.substr(lastSeenIndex)}`
+		: '/'
+	const originUrl = character.origin.url
+	const originIndex = originUrl.lastIndexOf('/')
+	const origin = originUrl ? `/locations${originUrl.substr(originIndex)}` : '/'
 
 	return (
 		<article className={styles.card}>
@@ -49,7 +51,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
 
 				<div className={styles.section}>
 					<span className={'text-gray'}>Last known location:</span>
-					<Link href={`/locations${lastSeen}`}>
+					<Link href={lastSeen}>
 						<a className={styles.link}>{character.location.name}</a>
 					</Link>
 				</div>
@@ -61,7 +63,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
 				</div>
 			</div>
 		</article>
-	);
-};
+	)
+}
 
-export default CharacterCard;
+export default CharacterCard

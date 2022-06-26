@@ -171,3 +171,19 @@ $clr-tertiary: #914dc8;
 .link:hover {
 	color: $clr-tertiary;
 }
+.locationInfo {
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 3rem;
+	@media screen and (max-width: 667px) {
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		gap: 1rem;
+		padding-block: 1rem;
+	}
+}

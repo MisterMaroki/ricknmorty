@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
 import imageLoader from '../../imageLoader'
 import { Character, GetCharacterResults } from '../../types'
-import styles from '../../styles/Character.module.scss'
+import styles from '../../styles/Home.module.scss'
 
 function CharacterPage({ character }: { character: Character }) {
 	return (

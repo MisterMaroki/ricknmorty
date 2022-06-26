@@ -13,11 +13,13 @@
 		"normalize.css": "^8.0.1",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
+		"react-timeago": "^7.1.0",
 		"sass": "^1.52.3",
 		"zustand": "^4.0.0-rc.1"
 	},
 	"devDependencies": {
 		"@types/react": "17.0.24",
+		"@types/react-timeago": "^4.1.3",
 		"eslint": "7.32.0",
 		"eslint-config-next": "11.1.2",
 		"typescript": "4.4.3"

@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from 'next/link'
+import React from 'react'
 
 function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -15,16 +15,15 @@ function Layout({ children }: { children: React.ReactNode }) {
 							</a>
 						</Link>
 					</div>
-					<li>
-						<Link href="/" passHref>
-							<a>Home</a>
-						</Link>
-					</li>
+
+					<Link href="/" passHref>
+						<a>Home</a>
+					</Link>
 				</nav>
 			</header>
 			{children}
 		</>
-	);
+	)
 }
 
-export default Layout;
+export default Layout

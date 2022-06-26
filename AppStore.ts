@@ -1,9 +1,6 @@
 import create from 'zustand'
 import { Character, GetCharacterResults } from './types'
 import { devtools, persist } from 'zustand/middleware'
-type State = {
-	characters: Character[]
-}
 const getCharacterData = async () => {
 	let arr = [] as Character[]
 	for (let i = 1; i <= 42; i++) {
@@ -19,6 +16,10 @@ const getCharacterData = async () => {
 }
 
 getCharacterData()
+
+type State = {
+	characters: Character[]
+}
 
 const characterStore = () => ({
 	characters: [] as Character[],
