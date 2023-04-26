@@ -1,24 +1,23 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
-import Head from 'next/head'
-import Link from 'next/link'
-import Image from 'next/image'
-import imageLoader from '../imageLoader'
-import styles from '../styles/Home.module.scss'
-import { Character, GetCharacterResults } from '../types'
-import Layout from '../components/Layout'
-import { useEffect, useState } from 'react'
-import CharacterCard from '../components/CharacterCard'
-import { useStore } from '../AppStore'
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
+import { useStore } from '../AppStore';
+import CharacterCard from '../components/CharacterCard';
+import Layout from '../components/Layout';
+import styles from '../styles/Home.module.scss';
 
 const Home = () => {
-	const [page, setPage] = useState(1)
-	const characters = useStore((state) => state.characters)
+	const [page, setPage] = useState(1);
+	const { characters, fetchCharacters } = useStore();
+
+	useEffect(() => {
+		fetchCharacters(page);
+	}, [page]);
 
 	const characterCards = characters
 		.slice((page - 1) * 20, (page - 1) * 20 + 20)
 		.map((character) => (
 			<CharacterCard key={character.id} character={character} />
-		))
+		));
 
 	return (
 		<div className={styles.container}>
@@ -54,14 +53,21 @@ const Home = () => {
 			</header>
 			<main className={styles.main}>
 				<div className={styles.grid}>{characterCards}</div>
-				<button onClick={() => setPage(page - 1)}>Prev page</button>
+				<button
+					onClick={() => {
+						if (page === 1) return;
+						setPage(page - 1);
+					}}
+				>
+					Prev page
+				</button>
 				<button onClick={() => setPage(page + 1)}>Next page</button>
 			</main>
 		</div>
-	)
-}
+	);
+};
 Home.getLayout = function getLayout(page: typeof Home) {
-	return <Layout>{page}</Layout>
-}
+	return <Layout>{page}</Layout>;
+};
 
-export default Home
+export default Home;
